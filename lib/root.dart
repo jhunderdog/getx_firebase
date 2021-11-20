@@ -25,7 +25,7 @@ class Root extends StatelessWidget {
                 child: FirebaseAuth.instance.currentUser != null ||
                         _.isSignedIn == true
                     ? Home()
-                    : SignUp()),
+                    : SignIn()),
           );
         },
       ),
