@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:getx_firebase/auth_controller.dart';
 import 'package:getx_firebase/configuration.dart';
 import 'package:getx_firebase/signin.dart';
+import 'package:getx_firebase/signup.dart';
 
 import 'home.dart';
 
@@ -24,7 +25,7 @@ class Root extends StatelessWidget {
                 child: FirebaseAuth.instance.currentUser != null ||
                         _.isSignedIn == true
                     ? Home()
-                    : SignIn()),
+                    : SignUp()),
           );
         },
       ),
