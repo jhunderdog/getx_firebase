@@ -113,4 +113,61 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  void resetPassword(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      Get.back();
+    } on FirebaseAuthException catch (error) {
+      String title = error.code.replaceAll(RegExp('-'), ' ').capitalize!;
+      String message = '';
+      if (error.code == 'user-not-found') {
+        message =
+            'Account does not exists for that $email.. Create your account by signing up...';
+      } else {
+        message = error.message.toString();
+      }
+      Get.snackbar(
+        title,
+        message,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  void signOutFromApp() async {
+    try {
+      await auth.signOut();
+      await _googleSignIn.signOut();
+      displayUserName = '';
+      displayPhoto = '';
+      isSignedIn.value = false;
+      update();
+      Get.offAll(() => Root());
+    } catch (error) {
+      Get.snackbar(
+        'Error!',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    }
+  }
+}
+
+extension StringExtension on String {
+  String capitalizeString() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
 }
